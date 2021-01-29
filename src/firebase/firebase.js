@@ -19,7 +19,7 @@ const authUiConfig = {
     signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     ],
-    signInSuccessUrl: `${process.env.REACT_APP_API_BASE_URL}`
+    signInSuccessUrl: `/dashboard`
 };
 
 firebase.initializeApp(firebaseConfig);
