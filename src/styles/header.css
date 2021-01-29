@@ -1,0 +1,21 @@
+.App-Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 5vh;
+    padding: 3rem 0;
+}
+
+.App-Header-text {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.App-Header-logout {
+    position: absolute;
+    right: 0%;
+    transform: translate(-50%, 0%);
+}
