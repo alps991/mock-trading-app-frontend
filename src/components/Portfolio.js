@@ -12,10 +12,10 @@ class Portfolio extends React.Component {
         });
 
         return (
-            <Table celled>
+            <Table celled textAlign='center'>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell colSpan='5'>Your Portfolio</Table.HeaderCell>
+                        <Table.HeaderCell colSpan='5'>Your Portfolio (Total: ${this.props.totalValue})</Table.HeaderCell>
                     </Table.Row>
                     <Table.Row>
                         <Table.HeaderCell>Currency</Table.HeaderCell>

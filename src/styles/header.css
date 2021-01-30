@@ -1,21 +1,34 @@
-.App-Header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    min-height: 5vh;
-    padding: 3rem 0;
+@media only screen and (max-width: 600px) {
+    .App-Header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        padding: 1rem 0;
+    }
 }
 
-.App-Header-text {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0%);
-}
-
-.App-Header-logout {
-    position: absolute;
-    right: 0%;
-    transform: translate(-50%, 0%);
+@media only screen and (min-width: 600px) {
+    .App-Header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        min-height: 5vh;
+        padding: 3rem 0;
+    }
+    
+    .App-Header-text {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+    
+    .App-Header-logout {
+        position: absolute;
+        right: 0%;
+        transform: translate(-50%, 0%);
+    }
 }
