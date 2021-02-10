@@ -4,8 +4,9 @@ import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({ isAuthenticated, component: Component, ...rest }) => (
     <Route
+        {...rest}
         component={
-            () => isAuthenticated ? <Component /> : <Redirect to='/login' />
+            (props) => isAuthenticated ? <Component {...props} /> : <Redirect to='/login' />
         }
     />
 );

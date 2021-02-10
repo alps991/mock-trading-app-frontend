@@ -1,3 +1,7 @@
 /*******************************
     User Variable Overrides
 *******************************/
+@selectionMobileMaxItems: 4;
+@selectionTabletMaxItems: 4;
+@selectionComputerMaxItems: 6;
+@selectionWidescreenMaxItems: 8;

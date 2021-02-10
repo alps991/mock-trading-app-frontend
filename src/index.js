@@ -6,6 +6,8 @@ import LoadingPage from './components/LoadingPage';
 import { firebase } from './firebase/firebase';
 import store from './store/store';
 import { startLogin, logout } from './actions/user';
+import { startSetTrades } from './actions/trades';
+import { getCurPrices } from './actions/coins';
 import * as serviceWorker from './serviceWorker';
 import 'semantic-ui-less/semantic.less'
 import './styles/index.css';
@@ -25,6 +27,8 @@ const jsx = (
 firebase.auth().onAuthStateChanged(async (user) => {
   if (user) {
     await store.dispatch(startLogin(user.uid));
+    await store.dispatch(startSetTrades());
+    await store.dispatch(getCurPrices());
     ReactDOM.render(jsx, document.getElementById('root'));
     if (history.location.pathname === '/login') {
       history.push('/dashboard');

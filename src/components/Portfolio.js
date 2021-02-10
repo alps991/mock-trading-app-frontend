@@ -2,49 +2,48 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'semantic-ui-react';
 
-class Portfolio extends React.Component {
+const Portfolio = props => {
 
-    render() {
+    const usdFormatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
 
-        const usdFormatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-        });
-
-        return (
-            <Table celled textAlign='center'>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell colSpan='5'>Your Portfolio (Total: ${this.props.totalValue})</Table.HeaderCell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.HeaderCell>Currency</Table.HeaderCell>
-                        <Table.HeaderCell>Balance</Table.HeaderCell>
-                        <Table.HeaderCell>Value</Table.HeaderCell>
-                        <Table.HeaderCell>Percentage</Table.HeaderCell>
-                        <Table.HeaderCell>Price</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {
-                        this.props.balances.map(coin => {
-                            const coinObj = this.props.curPrices.find(x => x.symbol === coin.symbol);
-                            const curPrice = coinObj ? usdFormatter.format(coinObj.curPrice) : 0;
-                            return (
-                                <Table.Row key={coin.symbol}>
-                                    <Table.Cell>{coin.symbol}</Table.Cell>
+    return (
+        <Table celled unstackable textAlign='center'>
+            <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell colSpan='3'>Your Portfolio (Total: {usdFormatter.format(props.totalValue)})</Table.HeaderCell>
+                </Table.Row>
+                <Table.Row>
+                    <Table.HeaderCell rowSpan='2'>Currency</Table.HeaderCell>
+                    <Table.HeaderCell>Balance</Table.HeaderCell>
+                    <Table.HeaderCell>Value</Table.HeaderCell>
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+                {
+                    props.balances.map(coin => {
+                        const coinObj = props.curPrices.find(x => x.symbol === coin.symbol);
+                        const curPrice = coinObj ? usdFormatter.format(coinObj.curPrice) : 0;
+                        return (
+                            <React.Fragment key={coin.symbol}>
+                                <Table.Row>
+                                    <Table.Cell>
+                                        <strong>{coin.symbol}</strong>
+                                        <br />
+                                        {coin.percentage}%
+                                        </Table.Cell>
                                     <Table.Cell>{coin.balance}</Table.Cell>
                                     <Table.Cell>{usdFormatter.format(coin.value)}</Table.Cell>
-                                    <Table.Cell>{coin.percentage}%</Table.Cell>
-                                    <Table.Cell>{curPrice}</Table.Cell>
                                 </Table.Row>
-                            )
-                        })
-                    }
-                </Table.Body>
-            </Table>
-        );
-    }
+                            </React.Fragment>
+                        );
+                    })
+                }
+            </Table.Body>
+        </Table>
+    );
 }
 
 const mapStateToProps = state => ({

@@ -4,27 +4,26 @@ export const startLogin = (uid) => {
     return async (dispatch, getStore) => {
         try {
             const getRes = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/users/${uid}`);
-            let balances, totalValue;
-            if (getRes.status === 204) {
-                const postRes = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/users/${uid}`);
-                balances = postRes.data.balances;
-                totalValue = postRes.data.totalValue;
+            if (getRes.status === 200) {
+                const { balancesArray, lockedBalancesArray, user } = getRes.data;
+                dispatch(login(uid, balancesArray, lockedBalancesArray, user));
             } else {
-                balances = getRes.data.balances;
-                totalValue = getRes.data.totalValue;
+                const postRes = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/users/${uid}`);
+                const { balancesArray, lockedBalancesArray, user } = postRes.data;
+                dispatch(login(uid, balancesArray, lockedBalancesArray, user));
             }
-            dispatch(login(uid, balances, totalValue));
         } catch (err) {
             console.log(err);
         }
     }
 }
 
-export const login = (uid, balances, totalValue) => ({
+export const login = (uid, balancesArray, lockedBalancesArray, user) => ({
     type: 'LOGIN',
     uid,
-    balances,
-    totalValue
+    balancesArray,
+    lockedBalancesArray,
+    user
 });
 
 export const logout = () => ({
@@ -36,19 +35,7 @@ export const updateUserBalances = (balances) => ({
     balances
 });
 
-export const startMarketTrade = (uid, { currencyToSell, currencyToBuy, quantityToSell }) => {
-    return async (dispatch, getStore) => {
-        try {
-            const newTradeRes = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/trades/marketTrade`, {
-                uid,
-                currencyToSell,
-                currencyToBuy,
-                quantityToSell: parseFloat(quantityToSell)
-            });
-
-            dispatch(updateUserBalances(newTradeRes.data.newUserBalances));
-        } catch (err) {
-            console.log(err);
-        }
-    }
-}
+export const updateUserLockedBalances = (lockedBalances) => ({
+    type: 'UPDATE_USER_LOCKED_BALANCES',
+    lockedBalances
+});
