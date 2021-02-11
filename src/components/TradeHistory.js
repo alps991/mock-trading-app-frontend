@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { Table } from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
 
 const TradeHistory = props => (
     <div className="content-container">
@@ -29,6 +30,10 @@ const TradeHistory = props => (
             </Table.Body>
 
         </Table>
+
+        <Link to='/dashboard'>
+            <Button primary>Home</Button>
+        </Link>
     </div>
 );
 

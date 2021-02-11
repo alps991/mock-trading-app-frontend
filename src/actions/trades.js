@@ -13,8 +13,10 @@ export const startMarketTrade = (uid, tradeData) => {
 
             dispatch(updateUserBalances(newTradeRes.data.newUserBalances));
             dispatch(addTrade(newTradeRes.data.newTrade));
+
         } catch (err) {
             console.log(err);
+            return err;
         }
     }
 }
@@ -32,8 +34,10 @@ export const startLimitTrade = (uid, tradeData) => {
             const { newTrade, newLockedBalances } = newTradeRes.data;
             dispatch(addTrade(newTrade));
             dispatch(updateUserLockedBalances(newLockedBalances));
+
         } catch (err) {
             console.log(err);
+            return err;
         }
     }
 }
@@ -49,7 +53,7 @@ export const startCancelTrade = (tradeId) => {
             const deleteTradeRes = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/trades/${tradeId}`);
             if (deleteTradeRes.status === 200) {
                 dispatch(cancelTrade(tradeId));
-                dispatch(updateUserLockedBalances(newTradeRes.data.newLockedBalances));
+                dispatch(updateUserLockedBalances(deleteTradeRes.data.newLockedBalances));
             }
         } catch (err) {
             console.log(err);
@@ -72,12 +76,13 @@ export const startEditTrade = (uid, tradeData) => {
                 priceToSell: parseFloat(priceToSell),
                 uid,
             });
-            if (newTradeRes.status === 200) {
-                dispatch(editTrade(tradeId, { quantityToSell, priceToSell }));
-                dispatch(updateUserLockedBalances(newTradeRes.data.newLockedBalances));
-            }
+
+            dispatch(editTrade(tradeId, { quantityToSell, priceToSell }));
+            dispatch(updateUserLockedBalances(newTradeRes.data.newLockedBalances));
+
         } catch (err) {
             console.log(err);
+            return err;
         }
     }
 }

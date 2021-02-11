@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Dropdown, Input, Button } from 'semantic-ui-react';
+import { Form, Dropdown, Input, Button, Message } from 'semantic-ui-react';
 import { startMarketTrade, startLimitTrade } from '../actions/trades';
 
 class TradeForm extends React.Component {
@@ -81,16 +81,42 @@ class TradeForm extends React.Component {
             value: "Sell",
         }];
 
-        let availableQuantity = 0;
-
+        let [availableQuantity, curPrice] = [0, 0];
+        let tradeCurrency, baseCurrency;
         if (this.state.currencyToBuy && this.state.currencyToSell) {
-            availableQuantity += this.props.balances.find(x => x.symbol === this.state.currencyToSell).balance
-            availableQuantity -= this.props.lockedBalances.find(x => x.symbol === this.state.currencyToSell).balance
+            availableQuantity += this.props.balances.find(x => x.symbol === this.state.currencyToSell).balance;
+            availableQuantity -= this.props.lockedBalances.find(x => x.symbol === this.state.currencyToSell).balance;
+
+            [tradeCurrency, baseCurrency] = this.state.tradePair.split("-");
+            curPrice = this.props.curPrices.find(x => x.symbol === tradeCurrency).curPrice;
         }
+
+
 
         return (
             <div className="content-container">
-                <Form>
+                <Form success error>
+
+                    {
+                        this.props.success ? (
+                            <Message
+                                success
+                                header="Trade submitted"
+                                content="Trade was successfully submitted"
+                            />
+                        ) : null
+                    }
+
+                    {
+                        this.props.errorMessage ? (
+                            <Message
+                                error
+                                header="Error"
+                                content={this.props.errorMessage}
+                            />
+                        ) : null
+                    }
+
                     <p>Trade Type:</p>
                     <Dropdown
                         placeholder="Type"
@@ -146,6 +172,7 @@ class TradeForm extends React.Component {
                                 value={this.state.quantityToSell}
                             />
                             <p>{availableQuantity} {this.state.currencyToSell} available</p>
+                            <p>Current rate: {curPrice} {baseCurrency} = 1 {tradeCurrency}</p>
                             {this.state.quantityToSell && (this.state.tradeType === "Market" || this.state.priceToSell) ? (
                                 <Button
                                     primary

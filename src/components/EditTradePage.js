@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { startEditTrade } from '../actions/trades';
 import { history } from '../routers/AppRouter';
@@ -6,11 +6,25 @@ import TradeForm from './TradeForm';
 
 const EditTradePage = props => {
 
-    const handleSubmit = (e, uid, tradeData) => {
+    const [success, setSuccess] = useState(false);
+    const [errorMessage, setError] = useState("");
+
+    const handleSubmit = async (e, uid, tradeData) => {
         e.preventDefault();
         tradeData.tradeId = props.trade.tradeId;
-        props.startEditTrade(uid, tradeData);
-        history.push('/openTrades');
+
+        let err = await props.startEditTrade(uid, tradeData);
+
+        if (!err) {
+            setError("");
+            setSuccess(true);
+            setTimeout(() => {
+                history.push('/openTrades');
+            }, 3000)
+        } else {
+            setSuccess(false);
+            setError(err.response.data);
+        }
     }
 
     return (
@@ -18,6 +32,8 @@ const EditTradePage = props => {
             <TradeForm
                 handleSubmit={handleSubmit}
                 tradeToEdit={props.trade}
+                success={success}
+                errorMessage={errorMessage}
             />
         </div>
     );
