@@ -1,13 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'semantic-ui-react';
+import { usdFormatter } from '../utils/utils';
 
 const Portfolio = props => {
-
-    const usdFormatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    });
 
     return (
         <Table celled unstackable textAlign='center'>
@@ -24,8 +20,8 @@ const Portfolio = props => {
             <Table.Body>
                 {
                     props.balances.map(coin => {
-                        const coinObj = props.curPrices.find(x => x.symbol === coin.symbol);
-                        const curPrice = coinObj ? usdFormatter.format(coinObj.curPrice) : 0;
+                        // const coinObj = props.curPrices.find(x => x.symbol === coin.symbol);
+                        // const curPrice = coinObj ? usdFormatter.format(coinObj.curPrice) : 0;
                         return (
                             <React.Fragment key={coin.symbol}>
                                 <Table.Row>

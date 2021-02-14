@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Dropdown, Input, Button, Message } from 'semantic-ui-react';
 import { startMarketTrade, startLimitTrade } from '../actions/trades';
+import { usdFormatter } from '../utils/utils';
 
 class TradeForm extends React.Component {
 
@@ -89,6 +90,7 @@ class TradeForm extends React.Component {
 
             [tradeCurrency, baseCurrency] = this.state.tradePair.split("-");
             curPrice = this.props.curPrices.find(x => x.symbol === tradeCurrency).curPrice;
+            curPrice = usdFormatter(curPrice);
         }
 
 

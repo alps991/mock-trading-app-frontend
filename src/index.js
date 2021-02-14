@@ -26,7 +26,7 @@ const jsx = (
 
 firebase.auth().onAuthStateChanged(async (user) => {
   if (user) {
-    await store.dispatch(startLogin(user.uid));
+    await store.dispatch(startLogin(user));
     await store.dispatch(startSetTrades());
     await store.dispatch(getCurPrices());
     ReactDOM.render(jsx, document.getElementById('root'));

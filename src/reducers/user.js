@@ -4,7 +4,8 @@ const defaultState = {
     uid: null,
     totalValue: 0,
     balances: [],
-    lockedBalances: []
+    lockedBalances: [],
+    displayName: "",
 }
 
 for (let coin of coins) {
@@ -28,6 +29,7 @@ const userReducer = (state = defaultState, action) => {
                 balances: action.balancesArray,
                 lockedBalances: action.lockedBalancesArray,
                 totalValue: action.user.totalValue,
+                displayName: action.displayName
             };
         case 'LOGOUT':
             return {};

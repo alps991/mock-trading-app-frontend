@@ -49,7 +49,7 @@ const tradesReducer = (state = defaultState, action) => {
                 openTrades: updatedOpenTrades
             }
         case 'CANCEL_TRADE':
-            const newOpenTrades = state.openTrades.filter(trade => trade.tradeId != action.tradeId);
+            const newOpenTrades = state.openTrades.filter(trade => trade.tradeId !== action.tradeId);
             return {
                 ...state,
                 openTrades: newOpenTrades,

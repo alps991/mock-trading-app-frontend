@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 import Portfolio from './Portfolio';
 
-const Dashboard = () => (
+const Dashboard = (props) => (
     <div className="content-container">
+        <Header as='h2' style={{ "text-align": "center" }}>
+            Welcome {props.displayName}
+        </Header>
         <Portfolio />
         <Link to="/newTrade">
             <Button primary>New Trade</Button>
@@ -18,5 +22,8 @@ const Dashboard = () => (
     </div>
 );
 
+const mapStateToProps = state => ({
+    displayName: state.user.displayName,
+});
 
-export default Dashboard;
+export default connect(mapStateToProps)(Dashboard);
